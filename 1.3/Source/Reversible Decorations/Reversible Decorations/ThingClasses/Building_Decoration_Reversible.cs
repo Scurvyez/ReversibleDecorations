@@ -16,11 +16,9 @@ namespace Reversible_Decorations
         private Graphic ReversedGraphicCache;
         public Graphic reversedGraphic => ReversedGraphicCache;
         public Building_Decoration_Reversible_ModExtension BuildingExt;
-        public bool BackAndForth = true; // utilize Mathf.PingPong()?
+        public bool BackAndForth = true;
         public int InterpolationPeriod = 2500 / Rand.Int;
         public int Period = 0;
-        public bool x; // move on the x axis?
-        public bool z; // move on the z axis?
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
@@ -30,12 +28,11 @@ namespace Reversible_Decorations
         public override void Tick()
         {
             base.Tick();
-
             float startMarker = DefaultGraphic.data.drawOffset.x; // starting x value
 
             if ((HitPoints < MaxHitPoints) && (BuildingExt.reversedGraphicData != null))
             {
-                if (BackAndForth == true)
+                if (BackAndForth == true) // move between two points
                 {
                     Period += Find.TickManager.TicksAbs;
                     if (Period <= InterpolationPeriod)

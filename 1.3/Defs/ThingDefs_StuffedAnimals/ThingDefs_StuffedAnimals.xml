@@ -25,6 +25,9 @@
             <graphicClass>Graphic_Single</graphicClass>
             <drawOffset>(0.0, 0.0, 0.2)</drawOffset>
             <drawSize>(0.6, 0.6)</drawSize>
+            <damageData>
+                <enabled>false</enabled>
+            </damageData>
         </graphicData>
         <drawerType>RealtimeOnly</drawerType>
         <altitudeLayer>BuildingOnTop</altitudeLayer>
@@ -80,6 +83,9 @@
 					<graphicClass>Graphic_Single</graphicClass>
                     <drawOffset>(0.0, 0.0, 0.2)</drawOffset>
                     <drawSize>(0.6, 0.6)</drawSize>
+                    <damageData>
+                        <enabled>false</enabled>
+                    </damageData>
                 </reversedGraphicData>
             </li>
         </modExtensions>
