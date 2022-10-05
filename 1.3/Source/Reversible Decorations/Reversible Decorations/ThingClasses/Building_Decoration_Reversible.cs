@@ -15,7 +15,12 @@ namespace Reversible_Decorations
     {
         private Graphic ReversedGraphicCache;
         public Graphic reversedGraphic => ReversedGraphicCache;
+        public Building_Decoration_Reversible_ModExtension BuildingExt;
         public bool BackAndForth = true; // utilize Mathf.PingPong()?
+        public int InterpolationPeriod = 2500 / Rand.Int;
+        public int Period = 0;
+        public bool x; // move on the x axis?
+        public bool z; // move on the z axis?
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
@@ -25,21 +30,43 @@ namespace Reversible_Decorations
         public override void Tick()
         {
             base.Tick();
-            Building_Decoration_Reversible_ModExtension buildingExt = def.GetModExtension<Building_Decoration_Reversible_ModExtension>();
 
-            float startMarker = reversedGraphic.data.drawOffset.x; // starting x value
+            float startMarker = DefaultGraphic.data.drawOffset.x; // starting x value
 
-            if ((HitPoints < MaxHitPoints) && (buildingExt.reversedGraphicData != null))
+            if ((HitPoints < MaxHitPoints) && (BuildingExt.reversedGraphicData != null))
             {
                 if (BackAndForth == true)
                 {
-                    // oscillatingValue = [amplitude * Sin(rad * current tick / speed)] - [middle of sin wave]
-                    reversedGraphic.data.drawOffset = new Vector3
-                        (0.50f * Mathf.Sin(Mathf.PI * Find.TickManager.TicksAbs / 120f) - startMarker, // x
-                        reversedGraphic.data.drawOffset.y, // y
-                        reversedGraphic.data.drawOffset.z); // z
+                    Period += Find.TickManager.TicksAbs;
+                    if (Period <= InterpolationPeriod)
+                    {
+                        TickRare();
+                        Period -= InterpolationPeriod;
+
+                        // oscillatingValue = [amplitude * Sin(rad * current tick / speed)] - [middle of sin wave]
+                        reversedGraphic.data.drawOffset = new Vector3
+                            (0.50f * Mathf.Sin(Mathf.PI * Find.TickManager.TicksAbs / 120f) - startMarker, // x
+                            reversedGraphic.data.drawOffset.y, // y
+                            reversedGraphic.data.drawOffset.z); // z
+                    }
                 }
             }
+        }
+
+        public override void TickRare()
+        {
+            base.TickRare();
+            System.Random random = new ();
+            int rand = random.Next(1, 25);
+            InterpolationPeriod = 2500 / rand;
+
+            Log.Message(InterpolationPeriod + "<color=#4494E3FF>Ticks to go.</color>");
+        }
+
+        public override void PostMake()
+        {
+            base.PostMake();
+            BuildingExt = def.GetModExtension<Building_Decoration_Reversible_ModExtension>();
         }
 
         public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
@@ -50,10 +77,9 @@ namespace Reversible_Decorations
 
         private void DetermineReversedGraphicColor()
         {
-            Building_Decoration_Reversible_ModExtension buildingExt = def.GetModExtension<Building_Decoration_Reversible_ModExtension>();
-            if (buildingExt == null)
+            if (BuildingExt == null)
                 return;
-            ReversedGraphicCache = buildingExt.reversedGraphicData?.GraphicColoredFor(this);
+            ReversedGraphicCache = BuildingExt.reversedGraphicData?.GraphicColoredFor(this);
         }
 
         private Graphic ReversedGraphic
@@ -79,8 +105,7 @@ namespace Reversible_Decorations
         {
             get
             {
-                Building_Decoration_Reversible_ModExtension buildingExt = def.GetModExtension<Building_Decoration_Reversible_ModExtension>();
-                if ((HitPoints < MaxHitPoints) && (buildingExt.reversedGraphicData.texPath != null))
+                if ((HitPoints < MaxHitPoints) && (BuildingExt.reversedGraphicData.texPath != null))
                 {
                     return ReversedGraphic;
                 }
