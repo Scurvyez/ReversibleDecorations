@@ -19,6 +19,7 @@ namespace Reversible_Decorations
         public bool BackAndForth = true;
         public int InterpolationPeriod = 2500 / Rand.Int;
         public int Period = 0;
+        private readonly float MaxAngle = 360.0f;
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
@@ -37,7 +38,6 @@ namespace Reversible_Decorations
                     Period += Find.TickManager.TicksAbs;
                     if (Period <= InterpolationPeriod)
                     {
-                        TickRare();
                         Period -= InterpolationPeriod;
 
                         // oscillatingValue = [amplitude * Sin(rad * current tick / speed)] - [middle of sin wave]
@@ -45,19 +45,13 @@ namespace Reversible_Decorations
                             (0.50f * Mathf.Sin(Mathf.PI * Find.TickManager.TicksAbs / 120f) - startMarker, // x
                             reversedGraphic.data.drawOffset.y, // y
                             reversedGraphic.data.drawOffset.z); // z
+
+                        float extraRotation;
+                        extraRotation = (Find.TickManager.TicksAbs * 0.5f) % (MaxAngle);
+                        reversedGraphic.DrawWorker(reversedGraphic.data.drawOffset, Rotation, def, this, extraRotation);
                     }
                 }
             }
-        }
-
-        public override void TickRare()
-        {
-            base.TickRare();
-            System.Random random = new ();
-            int rand = random.Next(1, 25);
-            InterpolationPeriod = 2500 / rand;
-
-            Log.Message(InterpolationPeriod + "<color=#4494E3FF>Ticks to go.</color>");
         }
 
         public override void PostMake()
