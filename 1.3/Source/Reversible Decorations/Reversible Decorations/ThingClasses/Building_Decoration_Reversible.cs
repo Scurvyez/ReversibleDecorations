@@ -22,8 +22,6 @@ namespace Reversible_Decorations
         private float NewXCoord = 0; // Initial value we don't care cause it get's updated in Tick()
         private float ExtraRotation = 0; // Initial value we don't care cause it get's updated in Tick()
 
-
-
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
@@ -47,64 +45,49 @@ namespace Reversible_Decorations
             {
                 if (def != null)
                 {
-                    Period += absTick;
+                    Period += absTick + thingIDNumber;
                     if (Period <= InterpolationPeriod)
                     {
                         Period -= InterpolationPeriod;
 
+                        // oscillation calculation
                         // oscillatingValue = [amplitude * Sin(rad * current tick / speed)] - [middle of sin wave]
-                        NewXCoord = (0.50f * Mathf.Sin(Mathf.PI * curTick / 120f) - startMarker);
+                        NewXCoord = (0.20f * Mathf.Sin(Mathf.PI * curTick / 120f) - startMarker);
 
+                        // rotation calculation
                         // rotationVaule = [(current tick * spin speed) per (360 degrees)]
-                        ExtraRotation = (absTick * 0.5f) % (MaxAngle);
-
-                        // messages for debugging
-                        //Log.Message("x = " + NewXCoord.ToString().Colorize(color1) + " , Time of day = " + curHour.ToString().Colorize(color1));
+                        ExtraRotation = (absTick * 3f) % (MaxAngle); // (CW)
                     }
                 }
             }
         }
 
-        public override void DrawAt(Vector3 drawLoc, bool flip = false)
+        public override void Draw()
         {
             // Do the actual fucking drawing here Steve...
             // the shake n' bake
             // and the ole' basket weave
 
-            Color color1 = new(0.145f, 0.588f, 0.745f, 1f); // for debugging text
-            //Log.Message("drawLoc = " + drawLoc.ToString().Colorize(color1));
-            //Log.Message("flip = " + flip.ToString().Colorize(color1));
-            //Log.Message("def = " + def.ToString().Colorize(color1));
-            //Log.Message("ExtraRotation = " + ExtraRotation.ToString().Colorize(color1));
-            //Log.Message("reversedGraphic.data.drawOffset = " + reversedGraphic.data.drawOffset.ToString().Colorize(color1));
-            //Log.Message("NewXCoord = " + NewXCoord.ToString().Colorize(color1));
-            //Log.Message("drawLoc = " + drawLoc.ToString().Colorize(color1));
-            //Log.Message("DefaultGraphic = " + DefaultGraphic.ToString().Colorize(color1));
-            //Log.Message("reversedGraphic = " + reversedGraphic.ToString().Colorize(color1));
-
             if (BuildingExt.reversedGraphicData != null)
             {
-                if (HitPoints < MaxHitPoints)
+                if (Graphic == ReversedGraphic)
                 {
-                    if (def != null && NewXCoord != 0 && drawLoc != null)
-                    {
-                        // for x movement
-                        reversedGraphic.data.drawOffset = new Vector3(
-                            NewXCoord, // x
-                            reversedGraphic.data.drawOffset.y, // y
-                            reversedGraphic.data.drawOffset.z); // z
+                    // for x movement
+                    reversedGraphic.data.drawOffset = new Vector3(
+                        NewXCoord, // x
+                        reversedGraphic.data.drawOffset.y, // y
+                        reversedGraphic.data.drawOffset.z); // z
 
-                        drawLoc = reversedGraphic.data.drawOffset;
-
-                        // needed for rotation
-                        Graphic.DrawWorker(drawLoc, Rotation, def, this, ExtraRotation);
-                    }
+                    Graphic.DrawWorker(DrawPos, Rotation, def, this, ExtraRotation);
                 }
-                else
+                else 
                 {
-                    drawLoc = DrawPos;
-                    Graphic.DrawWorker(drawLoc, Rotation, def, this, 0);
+                    DefaultGraphic.DrawWorker(DrawPos, Rotation, def, this, 0f);
                 }
+            }
+            else 
+            {
+                DefaultGraphic.DrawWorker(DrawPos, Rotation, def, this, 0f);
             }
         }
 
