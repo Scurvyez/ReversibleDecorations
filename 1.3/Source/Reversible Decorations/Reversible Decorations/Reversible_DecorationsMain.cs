@@ -18,6 +18,7 @@ namespace Reversible_Decorations
 
             Harmony harmony = new ("com.reversible_decorations");
             harmony.PatchAll();
+            Harmony.DEBUG = false;
         }
     }
 }
