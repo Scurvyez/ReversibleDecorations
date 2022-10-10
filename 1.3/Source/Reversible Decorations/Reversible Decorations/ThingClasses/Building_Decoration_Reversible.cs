@@ -52,11 +52,16 @@ namespace Reversible_Decorations
 
                         // oscillation calculation
                         // oscillatingValue = [amplitude * Sin(rad * current tick / speed)] - [middle of sin wave]
-                        NewXCoord = (0.20f * Mathf.Sin(Mathf.PI * curTick / 120f) - startMarker);
+                        // lower speed = faster movement
+                        NewXCoord = (0.06f * Mathf.Sin(Mathf.PI * curTick / 30f) - startMarker);
 
                         // rotation calculation
                         // rotationVaule = [(current tick * spin speed) per (360 degrees)]
-                        ExtraRotation = (absTick * 3f) % (MaxAngle); // (CW)
+                        //ExtraRotation = (absTick * 3f) % (MaxAngle); // (CW) // full 360 degrees
+
+                        Log.Message("ExtraRotation = " + ExtraRotation.ToString().Colorize(color1));
+                        float angle = Mathf.Atan2(50f, 310f) * Mathf.Rad2Deg;
+                        ExtraRotation = Mathf.PingPong(curTick, Mathf.Sin(Mathf.PI * curTick / angle)); // between two angles
                     }
                 }
             }

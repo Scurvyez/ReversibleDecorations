@@ -15,6 +15,9 @@ namespace Reversible_Decorations
         public string defaultThoughtDef = null;
         public string reversedThoughtDef = null;
 
+
+
+
         public override IEnumerable<string> ConfigErrors()
         {
             if (reversedGraphicData == null)
