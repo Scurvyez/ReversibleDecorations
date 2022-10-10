@@ -16,12 +16,11 @@ namespace Reversible_Decorations
         private Graphic ReversedGraphicCache;
         public Graphic reversedGraphic => ReversedGraphicCache;
         public Building_Decoration_Reversible_ModExtension BuildingExt;
-        private readonly float MaxAngle = 360.0f; // For rotation of graphic.
-        public int InterpolationPeriod = 30; // Length of counter.
+        public int InterpolationPeriod = 2400; // Length between counter start times
         public int Period = 0; // A counter.
         private float NewXCoord = 0; // Initial value we don't care cause it get's updated in Tick()
-        private float ExtraRotation = 0; // Initial value we don't care cause it get's updated in Tick()
-
+        private float ExtraRotation = 0;
+        
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
@@ -30,48 +29,48 @@ namespace Reversible_Decorations
         public override void Tick()
         {
             base.Tick();
+            Color color1 = new(0.145f, 0.588f, 0.745f, 1f); // for debugging text
             // Do all the actual calculations here dumbass...
             // and don't forget to store the results!
 
             float startMarker = DefaultGraphic.data.drawOffset.x; // starting x value
             int absTick = Find.TickManager.TicksAbs; // the absolute tick, since startup
             int curTick = GenLocalDate.DayTick(Map); // actual current tick of the current day
-            int curHour = GenLocalDate.HourOfDay(Map); // an int, 1 - 24
-            bool onTheHour = curTick % GenDate.TicksPerHour == 0; // is the curTick the start of a new hour in-game?
-
-            Color color1 = new(0.145f, 0.588f, 0.745f, 1f); // for debugging text
+            int thisHash = GetHashCode();
 
             if ((HitPoints < MaxHitPoints) && (BuildingExt.reversedGraphicData != null))
             {
                 if (def != null)
                 {
-                    Period += absTick + thingIDNumber;
-                    if (Period <= InterpolationPeriod)
+                    Period += absTick;
+                    if (Period <= InterpolationPeriod + thisHash)
                     {
                         Period -= InterpolationPeriod;
-
+                        
                         // oscillation calculation
                         // oscillatingValue = [amplitude * Sin(rad * current tick / speed)] - [middle of sin wave]
                         // lower speed = faster movement
-                        NewXCoord = (0.06f * Mathf.Sin(Mathf.PI * curTick / 30f) - startMarker);
+                        NewXCoord = (1.0f * Mathf.Sin(Mathf.PI * curTick / 30f) - startMarker);
 
                         // rotation calculation
-                        // rotationVaule = [(current tick * spin speed) per (360 degrees)]
-                        //ExtraRotation = (absTick * 3f) % (MaxAngle); // (CW) // full 360 degrees
-
-                        Log.Message("ExtraRotation = " + ExtraRotation.ToString().Colorize(color1));
                         float angle = Mathf.Atan2(50f, 310f) * Mathf.Rad2Deg;
                         ExtraRotation = Mathf.PingPong(curTick, Mathf.Sin(Mathf.PI * curTick / angle)); // between two angles
+
+                        // LEGACY STUFF
+                        // rotationVaule = [(current tick * spin speed) per (360 degrees)]
+                        //ExtraRotation = (absTick * 3f) % (MaxAngle); // (CW) // full 360 degrees
                     }
                 }
             }
+
+            // LEGACY STUFF
+            //int curHour = GenLocalDate.HourOfDay(Map); // an int, 1 - 24
+            //bool onTheHour = curTick % GenDate.TicksPerHour == 0; // is the curTick the start of a new hour in-game?
         }
 
         public override void Draw()
         {
             // Do the actual fucking drawing here Steve...
-            // the shake n' bake
-            // and the ole' basket weave
 
             if (BuildingExt.reversedGraphicData != null)
             {
@@ -79,9 +78,9 @@ namespace Reversible_Decorations
                 {
                     // for x movement
                     reversedGraphic.data.drawOffset = new Vector3(
-                        NewXCoord, // x
-                        reversedGraphic.data.drawOffset.y, // y
-                        reversedGraphic.data.drawOffset.z); // z
+                        NewXCoord,                                   // x
+                        reversedGraphic.data.drawOffset.y,           // y
+                        reversedGraphic.data.drawOffset.z);          // z
 
                     Graphic.DrawWorker(DrawPos, Rotation, def, this, ExtraRotation);
                 }
@@ -145,6 +144,15 @@ namespace Reversible_Decorations
                 return DefaultGraphic;
 
             }
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+
+            Scribe_Values.Look(ref Period, "Period", 0);
+            Scribe_Values.Look(ref NewXCoord, "NewXCoord", 0);
+            Scribe_Values.Look(ref ExtraRotation, "ExtraRotaion", 0);
         }
     }
 }
