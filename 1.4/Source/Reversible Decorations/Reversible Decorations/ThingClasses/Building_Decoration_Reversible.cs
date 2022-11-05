@@ -57,7 +57,7 @@ namespace Reversible_Decorations
                         ExtraRotation = Mathf.PingPong(curTick, Mathf.Sin(curTick * angle)); // between two angles
 
                         // LEGACY STUFF
-                        // rotationValue = [(current tick * spin speed) per (360 degrees)]
+                        // rotationVaule = [(current tick * spin speed) per (360 degrees)]
                         //ExtraRotation = (absTick * 3f) % (MaxAngle); // (CW) // full 360 degrees
                     }
                 }

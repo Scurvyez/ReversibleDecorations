@@ -1,0 +1,5 @@
+S:\Games\Steam\steamapps\common\RimWorld\Mods\ReversibleDecorations\1.3\Assemblies\Reversible Decorations.dll
+S:\Games\Steam\steamapps\common\RimWorld\Mods\ReversibleDecorations\1.3\Source\Reversible Decorations\Reversible Decorations\obj\Debug\Reversible Decorations.csproj.AssemblyReference.cache
+S:\Games\Steam\steamapps\common\RimWorld\Mods\ReversibleDecorations\1.3\Source\Reversible Decorations\Reversible Decorations\obj\Debug\Reversible Decorations.csproj.CoreCompileInputs.cache
+S:\Games\Steam\steamapps\common\RimWorld\Mods\ReversibleDecorations\1.3\Source\Reversible Decorations\Reversible Decorations\obj\Debug\Reversible Decorations.csproj.CopyComplete
+S:\Games\Steam\steamapps\common\RimWorld\Mods\ReversibleDecorations\1.3\Source\Reversible Decorations\Reversible Decorations\obj\Debug\Reversible Decorations.dll

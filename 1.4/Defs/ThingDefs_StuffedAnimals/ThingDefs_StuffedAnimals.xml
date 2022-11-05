@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <!-- 
+        c# shenanigans needed...
+        - proper mood (de)buffs when flipped inside or out
+            - DefModExtension for +/- thought defs?
+        - <SurgerySuccessChanceFactor> and possibly the reverse if flipped to angry side?
+
+        xml shenanigans needed...
+        - Attributes & Inheritance... make bases?
+        - <drawSize> changes?
+        - <rotatable> yes or na?
+        - <building>, all sub-nodes... any changes or new stuff dumped into a DefModExtension?
+        - <costList>, yay or nay?
+    -->
+
+    <ThingDef ParentName="BuildingBase">
+        <defName>SZ_ReversibleStuffedBunBun</defName>
+        <thingClass>Reversible_Decorations.Building_Decoration_Reversible</thingClass>
+        <label>reversible stuffed bunbun</label>
+        <description>PLACEHOLDER</description>
+        <graphicData>
+            <texPath>Things/Items/ReversibleStuffedAnimals/ReversibleStuffedBunBun/ReversibleStuffedBunBun_Happy</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <drawOffset>(0.0, 0.0, 0.2)</drawOffset>
+            <drawSize>(0.6, 0.6)</drawSize>
+            <damageData>
+                <enabled>false</enabled>
+            </damageData>
+        </graphicData>
+        <drawerType>RealtimeOnly</drawerType>
+        <altitudeLayer>BuildingOnTop</altitudeLayer>
+        <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+        <rotatable>true</rotatable>
+        <minifiedDef>MinifiedThing</minifiedDef>
+        <socialPropernessMatters>false</socialPropernessMatters>
+        <fillPercent>0.35</fillPercent>
+        <pathCost>50</pathCost>
+        <passability>PassThroughOnly</passability>
+        <leaveResourcesWhenKilled>True</leaveResourcesWhenKilled>
+        <uiIconScale>1.00</uiIconScale>
+        <clearBuildingArea>false</clearBuildingArea>
+        <size>(1,1)</size>
+        <tickerType>Normal</tickerType>
+        <hasInteractionCell>false</hasInteractionCell>
+        <thingCategories>
+            <li>BuildingsJoy</li>
+        </thingCategories>
+        <thingSetMakerTags>
+            <li>RewardStandardLowFreq</li>
+            <li>RewardStandardQualitySuper</li>
+        </thingSetMakerTags>
+        <stuffCategories>
+            <li>Fabric</li>
+            <li>Leathery</li>
+        </stuffCategories>
+        <costStuffCount>3</costStuffCount>
+        <statBases>
+            <WorkToBuild>1000</WorkToBuild>
+            <MaxHitPoints>85</MaxHitPoints>
+            <Flammability>1.0</Flammability>
+            <Mass>2</Mass>
+            <Beauty>2.5</Beauty>
+            <SurgerySuccessChanceFactor>0.5</SurgerySuccessChanceFactor>
+        </statBases>
+        <building>
+            <isEdifice>false</isEdifice>
+            <canPlaceOverWall>true</canPlaceOverWall>
+        </building>
+        <!-- <comps>
+            <li Class="Reversible_Decorations.CompProperties_ReversibleBuildingThoughts">
+                <defaultThoughtDef>Nuzzled</defaultThoughtDef>
+                <reversedThoughtDef>SoakingWet</reversedThoughtDef>
+                <defaultSoundDef>PsychicSootheGlobal</defaultSoundDef>
+                <reversedSoundDef>PsychicPulseGlobal</reversedSoundDef>
+            </li>
+        </comps> -->
+        <modExtensions>
+            <li Class="Reversible_Decorations.Building_Decoration_Reversible_ModExtension">
+                <reversedGraphicData>
+                    <texPath>Things/Items/ReversibleStuffedAnimals/ReversibleStuffedBunBun/ReversibleStuffedBunBun_Mad</texPath>
+					<graphicClass>Graphic_Single</graphicClass>
+                    <drawOffset>(0.0, 0.0, 0.2)</drawOffset>
+                    <drawSize>(0.6, 0.6)</drawSize>
+                    <damageData>
+                        <enabled>false</enabled>
+                    </damageData>
+                </reversedGraphicData>
+            </li>
+        </modExtensions>
+    </ThingDef>
+
+</Defs>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+    <!-- TESTING PURPOSES ONLY -->
+    <!--========== REPLACE HUMAN BODY PATCH ==========-->
+    <!-- Vanilla Human Pawns -->
+
+    <!-- <Operation Class="PatchOperationAdd">
+        <xpath>Defs/PawnKindDef[defName="Bear_Grizzly"]/lifeStages/li/bodyGraphicData</xpath>
+        <value>
+            <shaderType>PawnSilhouetteStencilGlow</shaderType>
+            <shaderParameters>
+                <_Color>(255, 25, 144)</_Color>
+            </shaderParameters>
+        </value>
+    </Operation> -->
+
+</Patch>
