@@ -57,6 +57,8 @@
     <Compile Include="DefModExtensions\Building_Decoration_Reversible_ModExtension.cs" />
     <Compile Include="Reversible_DecorationsMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThingComps\CompProps\CompProperties_ExtraGraphics.cs" />
+    <Compile Include="ThingComps\Comp_ExtraGraphics.cs" />
     <Compile Include="ThingComps\CompProps\CompProperties_ReversibleBuildingThoughts.cs" />
     <Compile Include="ThingComps\Comp_ReversibleBuildingThoughts.cs" />
   </ItemGroup>

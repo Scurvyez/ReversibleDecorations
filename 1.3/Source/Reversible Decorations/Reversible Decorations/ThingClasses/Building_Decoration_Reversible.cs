@@ -72,7 +72,7 @@ namespace Reversible_Decorations
         {
             // Do the actual fucking drawing here Steve...
 
-            if (BuildingExt.reversedGraphicData != null)
+            if (BuildingExt.reversedGraphicData != null && def != null)
             {
                 if (Graphic == ReversedGraphic)
                 {
@@ -152,7 +152,7 @@ namespace Reversible_Decorations
 
             Scribe_Values.Look(ref Period, "Period", 0);
             Scribe_Values.Look(ref NewXCoord, "NewXCoord", 0);
-            Scribe_Values.Look(ref ExtraRotation, "ExtraRotaion", 0);
+            Scribe_Values.Look(ref ExtraRotation, "ExtraRotation", 0);
         }
     }
 }
